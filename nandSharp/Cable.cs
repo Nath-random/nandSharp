@@ -2,7 +2,8 @@
 
 public class Cable
 {
-    public LogicGate Input;
+    public bool FastCable = false; //if true: cable goes from Output to Output and changes propagate instantly
+    public Plug? Source;
     public List<Plug> Dests;
 
 
@@ -24,7 +25,14 @@ public class Cable
     {
         foreach (Plug dest in Dests)
         {
-            dest.Voltage = voltage;
+            if (dest is InPlug inPlug)
+            {
+                inPlug.NextVoltage = voltage;
+            }
+            else
+            {
+                dest.Propagate(voltage);
+            }
         }
         
     }

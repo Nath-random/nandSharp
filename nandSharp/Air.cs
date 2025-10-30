@@ -2,12 +2,20 @@
 
 public class Air : LogicGate
 {
-    // public Air() : base(null, null, null) {}
-    public override void Tick()
+    public InPlug? In1;
+    public Air()
+    {
+        In1 = new InPlug(this);
+        
+    }
+    public override void Compute()
     {
         Console.WriteLine("in1: " + In1.Voltage);
-        Console.WriteLine("in2: " + In2.Voltage);
     }
-    
+
+    public override void Tick()
+    {
+        return;
+    }
     
 }

@@ -2,36 +2,28 @@
 
 public abstract class LogicGate
 {
-    public Plug? In1;
-    public Plug? In2;
-    public Cable Out1;
+    public ConnectorPlug Out1;
 
-
-    protected LogicGate() { }
-
-    // protected LogicGate(Cable out1)
-    // {
-    //     Out1 = out1;
-    // }
-    // protected LogicGate(Plug in1, Plug in2, Cable out1)
-    // {
-    //     In1 = in1;
-    //     In2 = in2;
-    //     Out1 = out1;
-    // }
-
-    public void AttachPlugIn1(Plug plug)
+    protected LogicGate()
     {
-        In1 = plug;
-        plug.gate = this;
+        Out1 = new ConnectorPlug();
     }
-
-    public void AttachPlugIn2(Plug plug)
-    {
-        
-    }
-
-    // public abstract void AppendDestGate(LogicGate logicGate);
     
-    public abstract void Tick();
+    
+    public virtual void AppendDestination(InPlug plug) // nur Nand überschreibt es, weil es einen OutPlug hat
+    {
+        if (Out1.DestCable == null)
+        {
+            Cable cable = new Cable();
+            Out1.DestCable = cable;
+            cable.Source = Out1;
+        }
+        Out1.DestCable.Dests.Add(plug);
+        plug.SourceCable = Out1.DestCable;
+    }
+    
+    // Tick and Calculate are called alternating
+    public abstract void Compute(); //Calculates the Nands
+
+    public abstract void Tick(); //Updates the Voltages
 }

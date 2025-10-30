@@ -1,8 +1,7 @@
 ﻿namespace nandSharp;
 
-public class Plug
+public abstract class Plug
 {
-    public bool Voltage = false;
-    public Cable cable;
-    public LogicGate gate;
+    public abstract void ConnectTo(Plug dest);
+    public abstract void Propagate(bool voltage);
 }
