@@ -4,16 +4,14 @@ public class Nand : LogicGate
 {
     public InPlug In1;
     public InPlug In2;
+    public OutPlug Out1;
     public Nand() : base()
     {
         In1 = new InPlug(this);
         In2 = new InPlug(this);
+        Out1 = new OutPlug(this);
     }
-
-    public override void AppendDestination(InPlug plug)
-    {
-        
-    }
+    
 
 
     public override void Compute()

@@ -6,14 +6,18 @@ class Program
     {
         Air air = new Air();
         Nand nand = new Nand();
-        nand.AppendDestination(air.In1);
-        nand.In1.Voltage = true;
-        nand.In2.Voltage = true;
-        nand.Compute();
+        Not not = new Not();
+        // nand.AppendDestination(air.In1);
+        not.In1.Propagate(false);
+        // not.In1.Voltage = true;
+        // nand.In2.Voltage = true;
+        Cable cable1 = new Cable();
+        not.Out1.DestCable = cable1;
+        not.Out1.DestCable.AddDest(air.In1);
+        
+        not.Compute();
         air.Compute();
-        nand.Tick();
+        not.Tick();
         air.Tick();
-        nand.Compute();
-        air.Compute();
     }
 }
