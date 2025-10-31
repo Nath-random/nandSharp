@@ -5,7 +5,7 @@ public class Air : LogicGate
     public InPlug In1;
     public Air()
     {
-        In1 = new InPlug(this);
+        In1 = new InPlug();
         
     }
     public override void Compute()

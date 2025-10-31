@@ -2,23 +2,15 @@
 
 public class Nand : LogicGate
 {
-    public InPlug In1;
-    public InPlug In2;
-    public OutPlug Out1;
-    public Nand() : base()
-    {
-        In1 = new InPlug(this);
-        In2 = new InPlug(this);
-        Out1 = new OutPlug(this);
-    }
+    public InPlug In1 = new InPlug();
+    public InPlug In2 = new InPlug();
+    public ConnectorPlug Out1 = new ConnectorPlug(); 
+    public Nand() { }
     
-
-
     public override void Compute()
     {
         bool result = !(In1.Voltage && In2.Voltage); // This line is the core of the nandSharp Computer
-        Out1.DestCable?.Propagate(result);
-        // Console.WriteLine(In1.Voltage + " 2: " + In2.Voltage);
+        Out1.DestCable.Propagate(result);
     }
 
     public override void Tick()

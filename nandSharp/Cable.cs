@@ -2,36 +2,21 @@
 
 public class Cable
 {
-    public bool FastCable = false; //if true: cable goes from Output to Output and changes propagate instantly
-    public Plug? Source;
     public List<Plug> Dests;
-
-
-    // public Cable(List<Plug> dests)
-    // {
-    //     Dests = dests;
-    // }
-//todo only default ctor
-    // public Cable(Plug dest)
-    // {
-    //     Dests = new List<Plug>{dest};
-    // }
 
     public Cable()
     {
         Dests = new List<Plug>();
     }
-
+    
+    public static void Connect(ConnectorPlug from, Plug to)
+    {
+        from.DestCable ??= new Cable();
+        from.DestCable.AddDest(to);
+    }
     public void AddDest(Plug dest)
     {
-        if (Dests == null)
-        {
-            Dests = new List<Plug> { dest };
-        }
-        else
-        {
-            Dests.Add(dest);
-        }
+        Dests.Add(dest);
     }
     public void Propagate(bool voltage)
     {
@@ -46,6 +31,5 @@ public class Cable
                 dest.Propagate(voltage);
             }
         }
-        
     }
 }
