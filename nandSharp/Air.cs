@@ -2,7 +2,7 @@
 
 public class Air : LogicGate
 {
-    public InPlug? In1;
+    public InPlug In1;
     public Air()
     {
         In1 = new InPlug(this);
@@ -10,12 +10,12 @@ public class Air : LogicGate
     }
     public override void Compute()
     {
-        Console.WriteLine("in1: " + In1.Voltage);
+        Console.WriteLine("Air reports: in1: " + In1.Voltage);
     }
 
     public override void Tick()
     {
-        return;
+        In1.Voltage = In1.NextVoltage;
     }
     
 }

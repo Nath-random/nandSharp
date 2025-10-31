@@ -11,6 +11,6 @@ public class ConnectorPlug : Plug
     }
     public override void Propagate(bool voltage)
     {
-        DestCable?.Propagate(voltage);
+        DestCable.Propagate(voltage);
     }
 }

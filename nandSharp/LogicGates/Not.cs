@@ -1,6 +1,6 @@
 ﻿namespace nandSharp.LogicGates;
 
-public class Not : DerivedGate
+public class Not : LogicGate
 {
     public ConnectorPlug In1;
     public Nand Nand1;
@@ -15,10 +15,11 @@ public class Not : DerivedGate
         Cable1 = new Cable();
         Cable2 = new Cable();
         Cable1.Dests.Add(Nand1.In1);
+        Cable1.Source = In1;
+        In1.DestCable = Cable1;
         Nand1.In1.SourceCable = Cable1;
         Cable1.Dests.Add(Nand1.In2);
         Nand1.In2.SourceCable = Cable2;
-        
         Nand1.Out1.DestCable = Cable2;
         Cable2.Source = Nand1.Out1;
         Cable2.Dests.Add(Out1);

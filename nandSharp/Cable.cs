@@ -7,15 +7,15 @@ public class Cable
     public List<Plug> Dests;
 
 
-    public Cable(List<Plug> dests)
-    {
-        Dests = dests;
-    }
-
-    public Cable(Plug dest)
-    {
-        Dests = new List<Plug>{dest};
-    }
+    // public Cable(List<Plug> dests)
+    // {
+    //     Dests = dests;
+    // }
+//todo only default ctor
+    // public Cable(Plug dest)
+    // {
+    //     Dests = new List<Plug>{dest};
+    // }
 
     public Cable()
     {
