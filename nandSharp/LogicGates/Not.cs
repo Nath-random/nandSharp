@@ -2,9 +2,9 @@
 
 public class Not : LogicGate
 {
-    public ConnectorPlug In1 = new ConnectorPlug();
-    public Nand Nand1 = new Nand();
-    public ConnectorPlug Out1 = new ConnectorPlug();
+    public ConnectorPlug In1 = new ();
+    public Nand Nand1 = new ();
+    public ConnectorPlug Out1 = new ();
     public Not()
     {
         Cable.Connect(In1, Nand1.In1);

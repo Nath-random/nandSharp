@@ -22,6 +22,7 @@ public class Cable
     {
         foreach (Plug dest in Dests)
         {
+            // dest.Propagate(voltage);
             if (dest is InPlug inPlug)
             {
                 inPlug.NextVoltage = voltage;

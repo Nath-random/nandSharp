@@ -2,9 +2,9 @@
 
 public class Nand : LogicGate
 {
-    public InPlug In1 = new InPlug();
-    public InPlug In2 = new InPlug();
-    public ConnectorPlug Out1 = new ConnectorPlug(); 
+    public InPlug In1 = new ();
+    public InPlug In2 = new ();
+    public ConnectorPlug Out1 = new (); 
     public Nand() { }
     
     public override void Compute()
