@@ -4,7 +4,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        AndTest();
+        XorTest();
     }
 
     public static void NotTest()
@@ -76,5 +76,61 @@ class Program
         and.Tick();
         air.Tick();
 
+    }
+
+
+    public static void XorTest()
+    {
+        
+        Air air = new();
+        Xor xor = new();
+        Cable.Connect(xor.Out1, air.In1);
+        xor.In1.Propagate(false);
+        xor.In2.Propagate(true);
+        
+        xor.Compute();
+        air.Compute();
+        xor.Tick();
+        air.Tick();
+        xor.Compute();
+        air.Compute();
+        xor.Tick();
+        air.Tick();
+        xor.Compute();
+        air.Compute();
+        xor.Tick();
+        air.Tick();
+        xor.Compute();
+        air.Compute();
+        xor.Tick();
+        air.Tick();
+        xor.Compute();
+        air.Compute();
+        xor.Tick();
+        air.Tick();
+        xor.Compute();
+        air.Compute();
+        xor.Tick();
+        air.Tick();
+        xor.Compute();
+        air.Compute();
+        xor.Tick();
+        air.Tick();
+        xor.Compute();
+        air.Compute();
+        xor.Tick();
+        air.Tick();
+        xor.Compute();
+        air.Compute();
+        xor.Tick();
+        air.Tick();
+        xor.Compute();
+        air.Compute();
+        xor.Tick();
+        air.Tick();
+        xor.Compute();
+        air.Compute();
+        xor.Tick();
+        air.Tick();
     }
 }
