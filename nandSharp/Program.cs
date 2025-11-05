@@ -2,9 +2,11 @@
 using LogicGates;
 class Program
 {
+    
+    //todo 32 bit Bus machen mit Pins 0-31
     static void Main(string[] args)
     {
-        XorTest();
+        FullAdderTest();
     }
 
     public static void NotTest()
@@ -132,5 +134,28 @@ class Program
         air.Compute();
         xor.Tick();
         air.Tick();
+    }
+
+    public static void FullAdderTest()
+    {
+        Air air1 = new("High-Bit");
+        Air air2 = new("Low-Bit");
+        FullAdder fAdd = new();
+        Cable.Connect(fAdd.OutH, air1.In1);
+        Cable.Connect(fAdd.OutL, air2.In1);
+        fAdd.In1.Propagate(true);
+        fAdd.In2.Propagate(true);
+        fAdd.InC.Propagate(false);
+
+        for (int i = 0; i < 30; i++)
+        {
+            fAdd.Compute();
+            air1.Compute();
+            air2.Compute();
+            fAdd.Tick();
+            air1.Tick();
+            air2.Tick();
+            Console.WriteLine();
+        }
     }
 }
