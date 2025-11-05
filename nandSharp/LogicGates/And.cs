@@ -1,6 +1,4 @@
 ﻿namespace nandSharp.LogicGates;
-using static Nand;
-using static Not;
 
 public class And : LogicGate
 {
