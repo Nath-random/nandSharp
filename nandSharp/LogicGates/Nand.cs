@@ -1,12 +1,21 @@
 ﻿namespace nandSharp.LogicGates;
+using Connecters;
 
 public class Nand : LogicGate
 {
     public InPlug In1 = new ();
     public InPlug In2 = new ();
-    public ConnectorPlug Out1 = new (); 
-    public Nand() { }
-    
+    public ConnectorPlug Out1 = new ();
+
+    public Nand()
+    {
+        InitStats();
+    }
+
+    public override void InitStats()
+    {
+        NandCount = 1;
+    }
     public override void Compute()
     {
         bool result = !(In1.Voltage && In2.Voltage); // This line is the core of the nandSharp Computer

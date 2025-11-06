@@ -1,5 +1,5 @@
 ﻿namespace nandSharp.LogicGates;
-
+using Connecters;
 public class FullAdder : LogicGate
 {
     public ConnectorPlug In1 = new();
@@ -26,6 +26,10 @@ public class FullAdder : LogicGate
         Cable.Connect(Xor1.Out1, OutL);
     }
 
+    public override void InitStats()
+    {
+        
+    }
     public override void Compute()
     {
         HalfAdd1.Compute();

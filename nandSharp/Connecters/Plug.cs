@@ -1,4 +1,4 @@
-﻿namespace nandSharp;
+﻿namespace nandSharp.Connecters;
 
 public abstract class Plug
 {

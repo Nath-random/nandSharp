@@ -1,5 +1,7 @@
-﻿namespace nandSharp;
+﻿using nandSharp.LogicGates;
 
+namespace nandSharp;
+using Connecters;
 public class Air : LogicGate
 {
     public InPlug In1;
@@ -12,6 +14,11 @@ public class Air : LogicGate
     public Air(string name) : this()
     {
         Name = name;
+        InitStats();
+    }
+    public override void InitStats()
+    {
+        NandCount = 0;
     }
     public override void Compute()
     {

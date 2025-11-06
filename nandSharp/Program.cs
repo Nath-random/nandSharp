@@ -1,14 +1,22 @@
 ﻿namespace nandSharp;
 using LogicGates;
+using Gates32Bit;
+using Connecters;
 class Program
 {
     
     //todo 32 bit Bus machen mit Pins 0-31
     static void Main(string[] args)
     {
-        FullAdderTest();
+        And32Test();
     }
 
+    public static void And32Test()
+    {
+        Air32 air = new();
+        Add32 add = new();
+        // for (int i = 0; )
+    }
     public static void NotTest()
     {
         Air air = new Air();

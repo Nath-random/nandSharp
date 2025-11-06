@@ -1,4 +1,5 @@
 ﻿namespace nandSharp.LogicGates;
+using Connecters;
 
 
 public class Or : LogicGate
@@ -16,6 +17,14 @@ public class Or : LogicGate
         Cable.Connect(Not1.Out1, Nand1.In1);
         Cable.Connect(Not2.Out1, Nand1.In2);
         Cable.Connect(Nand1.Out1, Out1);
+        InitStats();
+    }
+    
+    public override void InitStats()
+    {
+        NandCount += Not1.NandCount;
+        NandCount += Not2.NandCount;
+        NandCount += Nand1.NandCount;
     }
 
     public override void Compute()

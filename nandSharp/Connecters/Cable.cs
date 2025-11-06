@@ -1,12 +1,11 @@
-﻿namespace nandSharp;
+﻿namespace nandSharp.Connecters;
 
 public class Cable
 {
-    public List<Plug> Dests;
+    public List<Plug> Dests = new();
 
     public Cable()
     {
-        Dests = new List<Plug>();
     }
     
     public static void Connect(ConnectorPlug from, Plug to)

@@ -1,4 +1,4 @@
-﻿namespace nandSharp;
+﻿namespace nandSharp.Connecters;
 
 public class InPlug : Plug
 {
@@ -6,12 +6,7 @@ public class InPlug : Plug
     public bool NextVoltage = false;
 
     public InPlug() { }
-
-
-    // public void UpdateVoltage()
-    // {
-    //     Voltage = NextVoltage;
-    // }
+    
 
     public override void Propagate(bool voltage)
     {
