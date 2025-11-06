@@ -12,18 +12,15 @@ public class Air32 : LogicGate
 
     public override void InitStats()
     {
-        
+        NandCount = 0;
     }
     public Air32()
     {
         for (int i = 0; i < 32; i++)
         {
-            In1[i] = new InPlug();
+            In1.Add(new InPlug());
         }
     }
-    
-    
-    
     
     
     public override void Compute()
@@ -35,6 +32,7 @@ public class Air32 : LogicGate
         }
 
         Console.WriteLine(text);
+        
     }
 
     public override void Tick()

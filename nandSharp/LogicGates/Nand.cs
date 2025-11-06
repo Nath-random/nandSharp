@@ -3,9 +3,11 @@ using Connecters;
 
 public class Nand : LogicGate
 {
+    public static string NAME = "NAND";
+
     public InPlug In1 = new ();
     public InPlug In2 = new ();
-    public ConnectorPlug Out1 = new ();
+    public ConnectorPlug Out1 = new (NAME);
 
     public Nand()
     {

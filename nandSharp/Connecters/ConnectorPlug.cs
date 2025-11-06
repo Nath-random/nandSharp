@@ -2,15 +2,19 @@
 
 public class ConnectorPlug : Plug
 {
-    public Cable? SourceCable;
     public Cable? DestCable;
+    public string BelongsTo = "unknown";
 
-    public ConnectorPlug()
+    public ConnectorPlug(string belongsTo)
     {
-        
+        BelongsTo = belongsTo;
     }
     public override void Propagate(bool voltage)
     {
+        if (DestCable == null)
+        {
+            Console.WriteLine($"ConnectorPlug von {BelongsTo} hat kein Kabel angeschlossen");
+        }
         DestCable.Propagate(voltage);
     }
 }

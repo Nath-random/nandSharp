@@ -2,15 +2,17 @@
 using Connecters;
 public class FullAdder : LogicGate
 {
-    public ConnectorPlug In1 = new();
-    public ConnectorPlug In2 = new();
-    public ConnectorPlug InC = new(); // C = Carry bit
+    public static string NAME = "FULL_ADDER";
+    
+    public ConnectorPlug In1 = new(NAME);
+    public ConnectorPlug In2 = new(NAME);
+    public ConnectorPlug InC = new(NAME); // C = Carry bit
     public HalfAdder HalfAdd1 = new();
     public And And1 = new();
     public Or Or1 = new();
     public Xor Xor1 = new();
-    public ConnectorPlug OutH = new(); // H = High bit
-    public ConnectorPlug OutL = new(); // L = Low bit
+    public ConnectorPlug OutH = new(NAME); // H = High bit
+    public ConnectorPlug OutL = new(NAME); // L = Low bit
 
     public FullAdder()
     {
@@ -24,11 +26,12 @@ public class FullAdder : LogicGate
         Cable.Connect(And1.Out1, Or1.In2);
         Cable.Connect(Or1.Out1, OutH);
         Cable.Connect(Xor1.Out1, OutL);
+        InitStats();
     }
 
     public override void InitStats()
     {
-        
+        NandCount = HalfAdd1.NandCount + And1.NandCount + Or1.NandCount + Xor1.NandCount;
     }
     public override void Compute()
     {

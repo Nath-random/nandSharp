@@ -4,18 +4,34 @@ using Gates32Bit;
 using Connecters;
 class Program
 {
-    
-    //todo 32 bit Bus machen mit Pins 0-31
     static void Main(string[] args)
     {
-        And32Test();
+        Add32Test();
     }
 
-    public static void And32Test()
+    public static void Add32Test()
     {
         Air32 air = new();
+        Air air2 = new();
         Add32 add = new();
-        // for (int i = 0; )
+        for (int i = 0; i < 32; i++)
+        {
+            Cable.Connect(add.Out1[i], air.In1[i]);
+        }
+        Cable.Connect(add.OutC, air2.In1);
+        add.In1[0].Propagate(false);
+        
+        add.In1[1].Propagate(true);
+        Console.WriteLine(add.NandCount);
+        for (int i = 0; i < 1000; i++)
+        {
+            add.Compute();
+            air.Compute();
+            add.Tick();
+            air.Tick();
+        }
+
+        Console.WriteLine("fertig");
     }
     public static void NotTest()
     {

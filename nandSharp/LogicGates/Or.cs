@@ -4,12 +4,14 @@ using Connecters;
 
 public class Or : LogicGate
 {
-    public ConnectorPlug In1 = new();
-    public ConnectorPlug In2 = new();
+    public static string NAME = "OR";
+    
+    public ConnectorPlug In1 = new(NAME);
+    public ConnectorPlug In2 = new(NAME);
     public Not Not1 = new();
     public Not Not2 = new();
     public Nand Nand1 = new();
-    public ConnectorPlug Out1 = new();
+    public ConnectorPlug Out1 = new(NAME);
     public Or()
     {
         Cable.Connect(In1, Not1.In1);
