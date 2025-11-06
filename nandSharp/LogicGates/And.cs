@@ -3,7 +3,7 @@ using Connecters;
 
 public class And : LogicGate
 {
-    public static string NAME = "AND";
+    public static readonly string NAME = "AND";
 
     public ConnectorPlug In1 = new(NAME);
     public ConnectorPlug In2 = new(NAME);

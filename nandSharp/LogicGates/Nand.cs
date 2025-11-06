@@ -3,7 +3,7 @@ using Connecters;
 
 public class Nand : LogicGate
 {
-    public static string NAME = "NAND";
+    public static readonly string NAME = "NAND";
 
     public InPlug In1 = new ();
     public InPlug In2 = new ();

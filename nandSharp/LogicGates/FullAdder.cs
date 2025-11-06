@@ -2,7 +2,7 @@
 using Connecters;
 public class FullAdder : LogicGate
 {
-    public static string NAME = "FULL_ADDER";
+    public static readonly string NAME = "FULL_ADDER";
     
     public ConnectorPlug In1 = new(NAME);
     public ConnectorPlug In2 = new(NAME);

@@ -4,29 +4,48 @@ namespace nandSharp;
 
 public class SignalProvider32 : LogicGate
 {
-    public static string NAME = "SIGNAL_PROVIDER32";
-    public List<bool> bits = new(); // Bit at Index 0 has value 1
+    public static readonly string NAME = "SIGNAL_PROVIDER32";
+    public static readonly long HIGHEST_UNSIGNED = 4294967295;
+    public static readonly long HIGHEST_SIGNED = 2147483647;
+    public static readonly long LOWEST_SIGNED = -2147483640;
+    public List<bool> Bits = new(); // Bit at Index 0 has value 1
     public BusConnector Out1 = new(NAME);
 
-    public SignalProvider32(long unsignedValue)
+    public SignalProvider32(long value, bool signed = true)
     {
-        if (unsignedValue < 0 || unsignedValue > 4294967295)
+        if (signed) // Interpret as signed number
         {
-            throw new ArgumentException("Value beim Signal-Provider zu gross!!");
+            if (value > HIGHEST_SIGNED || value < LOWEST_SIGNED)
+            {
+                throw new ArgumentOutOfRangeException("Illegaler Value für signed beim Signal-Provider!!");
+            }
+            bool negative = value < 0;
+            if (negative)
+            {
+                value += HIGHEST_SIGNED + 1;
+            }
+            for (int i = 0; i < 31; i++)
+            {
+                Bits.Add(value % 2 == 1);
+                value /= 2;
+            }
+            Bits.Add(negative);
         }
-        for (int i = 0; i < 32; i++)
+        else // Interpret as unsigned number
         {
-            if (unsignedValue % 2 == 1)
+            if (value < 0 || value > HIGHEST_UNSIGNED)
             {
-                bits.Add(true);
+                throw new ArgumentOutOfRangeException("Illegaler Value für unsigned beim Signal-Provider!!");
             }
-            else
+            for (int i = 0; i < 32; i++)
             {
-                bits.Add(false);
+                Bits.Add(value % 2 == 1);
+                value /= 2;
             }
-            unsignedValue /= 2;
         }
+        
     }
+    
     public override void InitStats()
     {
         NandCount = 0;
@@ -36,7 +55,7 @@ public class SignalProvider32 : LogicGate
     {
         for (int i = 0; i < 32; i++)
         {
-            Out1[i].Propagate(bits[i]);
+            Out1[i].Propagate(Bits[i]);
         }
     }
 

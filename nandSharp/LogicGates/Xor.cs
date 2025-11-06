@@ -3,7 +3,7 @@ using Connecters;
 
 public class Xor : LogicGate
 {
-    public static string NAME = "XOR";
+    public static readonly string NAME = "XOR";
 
     public ConnectorPlug In1 = new(NAME);
     public ConnectorPlug In2 = new(NAME);

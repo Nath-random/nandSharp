@@ -3,7 +3,7 @@ using Connecters;
 
 public class HalfAdder : LogicGate
 {
-    public static string NAME = "HALF_ADDER";
+    public static readonly string NAME = "HALF_ADDER";
 
     public ConnectorPlug In1 = new(NAME);
     public ConnectorPlug In2 = new(NAME);

@@ -4,7 +4,7 @@ using Connecters;
 
 public class Or : LogicGate
 {
-    public static string NAME = "OR";
+    public static readonly string NAME = "OR";
     
     public ConnectorPlug In1 = new(NAME);
     public ConnectorPlug In2 = new(NAME);

@@ -4,7 +4,7 @@ using Connecters;
 
 public class Nor : LogicGate
 {
-    public static string NAME = "NOR";
+    public static readonly string NAME = "NOR";
 
     public ConnectorPlug In1 = new(NAME);
     public ConnectorPlug In2 = new(NAME);

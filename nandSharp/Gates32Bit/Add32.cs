@@ -4,7 +4,7 @@ using Connecters;
 
 public class Add32 : LogicGate
 {
-    public static string NAME = "ADD32";
+    public static readonly string NAME = "ADD32";
 
     public BusConnector In1 = new(NAME);
     public BusConnector In2 = new(NAME);
@@ -45,8 +45,10 @@ public class Add32 : LogicGate
     
     public override void Compute()
     {
+        int i = 0;
         foreach (FullAdder adder in Adders)
         {
+            i++;
             adder.Compute();
         }
     }
