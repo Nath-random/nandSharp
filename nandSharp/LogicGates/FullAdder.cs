@@ -32,6 +32,7 @@ public class FullAdder : LogicGate
     public override void InitStats()
     {
         NandCount = HalfAdd1.NandCount + And1.NandCount + Or1.NandCount + Xor1.NandCount;
+        NeededTicks = Math.Max(Xor1.NeededTicks, HalfAdd1.NeededTicks + And1.NeededTicks + Or1.NeededTicks);
     }
     public override void Compute()
     {

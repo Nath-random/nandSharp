@@ -19,6 +19,7 @@ public class Not : LogicGate
     public override void InitStats()
     {
         NandCount = Nand1.NandCount;
+        NeededTicks = Nand1.NeededTicks;
     }
     public override void Compute()
     {

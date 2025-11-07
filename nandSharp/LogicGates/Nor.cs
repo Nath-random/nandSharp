@@ -23,8 +23,8 @@ public class Nor : LogicGate
 
     public override void InitStats()
     {
-        NandCount += Or1.NandCount;
-        NandCount += Not1.NandCount;
+        NandCount = Or1.NandCount + Not1.NandCount;
+        NeededTicks = Or1.NeededTicks + Not1.NeededTicks;
     }
 
     public override void Compute()

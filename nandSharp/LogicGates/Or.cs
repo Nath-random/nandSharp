@@ -24,9 +24,8 @@ public class Or : LogicGate
     
     public override void InitStats()
     {
-        NandCount += Not1.NandCount;
-        NandCount += Not2.NandCount;
-        NandCount += Nand1.NandCount;
+        NandCount = Not1.NandCount + Not2.NandCount + Nand1.NandCount;
+        NeededTicks = Not1.NeededTicks + Nand1.NeededTicks;
     }
 
     public override void Compute()

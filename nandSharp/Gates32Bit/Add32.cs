@@ -40,7 +40,9 @@ public class Add32 : LogicGate
         foreach (FullAdder fAdder in Adders)
         {
             NandCount += fAdder.NandCount;
+            NeededTicks += fAdder.NeededTicks;
         }
+        
     }
     
     public override void Compute()

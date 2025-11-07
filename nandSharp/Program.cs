@@ -8,6 +8,8 @@ class Program
     {
         Add32Test();
         // NegativeNumberTest();
+        //todo unittests add32
+        //todo neededticks
     }
 
     public static void NegativeNumberTest()
@@ -36,7 +38,7 @@ class Program
         Add32 add = new();
         Air32 air1 = new();
         Air air2 = new();
-        
+        Console.WriteLine(add.NeededTicks);
         Bus32.Connect(number1.Out1, add.In1);
         Bus32.Connect(number2.Out1, add.In2);
         for (int i = 0; i < 32; i++)

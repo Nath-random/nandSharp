@@ -30,7 +30,8 @@ public class Xor : LogicGate
     
     public override void InitStats()
     {
-        NandCount += Not1.NandCount += Not2.NandCount;
+        NandCount = Not1.NandCount + Not2.NandCount;
+        NeededTicks = Not1.NeededTicks + And1.NeededTicks + Or1.NeededTicks;
     }
     
     public override void Compute()
