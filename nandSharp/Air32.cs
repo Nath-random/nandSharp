@@ -6,6 +6,8 @@ public class Air32 : LogicGate
     public static readonly long HIGHEST_SIGNED = 2147483647;
     public List<InPlug> In1 = new();
     public string Name = "unnamed";
+    public long lastInt;
+    public long lastUnsigned;
     
     public Air32(string name) : this()
     {
@@ -44,6 +46,9 @@ public class Air32 : LogicGate
         {
             signed = sum - HIGHEST_UNSIGNED - 1;
         }
+
+        lastUnsigned = sum;
+        lastInt = signed;
         var reversed = text.ToCharArray();
         Array.Reverse(reversed);
         text = new string(reversed);

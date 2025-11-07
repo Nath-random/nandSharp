@@ -13,6 +13,15 @@ public class SignalProvider32 : LogicGate
 
     public SignalProvider32(long value, bool signed = true)
     {
+        for (int i = 0; i < 32; i++)
+        {
+            Bits.Add(false);
+        } 
+        SetBits(value, signed);
+    }
+
+    public void SetBits(long value, bool signed = true)
+    {
         if (signed) // Interpret as signed number
         {
             if (value > HIGHEST_SIGNED || value < LOWEST_SIGNED)
@@ -26,10 +35,10 @@ public class SignalProvider32 : LogicGate
             }
             for (int i = 0; i < 31; i++)
             {
-                Bits.Add(value % 2 == 1);
+                Bits[i] = (value % 2 == 1);
                 value /= 2;
             }
-            Bits.Add(negative);
+            Bits[31] = negative;
         }
         else // Interpret as unsigned number
         {
@@ -39,16 +48,16 @@ public class SignalProvider32 : LogicGate
             }
             for (int i = 0; i < 32; i++)
             {
-                Bits.Add(value % 2 == 1);
+                Bits[i] = value % 2 == 1;
                 value /= 2;
             }
         }
-        
     }
     
     public override void InitStats()
     {
         NandCount = 0;
+        NeededTicks = 1;
     }
 
     public override void Compute()
