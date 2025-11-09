@@ -18,6 +18,13 @@ public class SignalProvider32 : LogicGate
             Bits.Add(false);
         } 
         SetBits(value, signed);
+        InitStats();
+    }
+    
+    public override void InitStats()
+    {
+        NandCount = 0;
+        NeededTicks = 1;
     }
 
     public void SetBits(long value, bool signed = true)
@@ -52,12 +59,6 @@ public class SignalProvider32 : LogicGate
                 value /= 2;
             }
         }
-    }
-    
-    public override void InitStats()
-    {
-        NandCount = 0;
-        NeededTicks = 1;
     }
 
     public override void Compute()

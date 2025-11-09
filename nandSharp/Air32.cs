@@ -17,6 +17,7 @@ public class Air32 : LogicGate
     public override void InitStats()
     {
         NandCount = 0;
+        NeededTicks = 1;
     }
     public Air32()
     {
@@ -24,6 +25,7 @@ public class Air32 : LogicGate
         {
             In1.Add(new InPlug());
         }
+        InitStats();
     }
     
     

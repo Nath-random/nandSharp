@@ -83,7 +83,6 @@ public class ALUGatesTests
         Inc32 inc = new();
         Air32 air1 = new();
         Air carryAir = new();
-        Air testAir = new();
         int ticks = number1.NeededTicks + inc.NeededTicks + air1.NeededTicks;
         Bus32.Connect(number1.Out1, inc.In1);
         for (int i = 0; i < 32; i++)
@@ -91,11 +90,9 @@ public class ALUGatesTests
             Cable.Connect(inc.Out1[i], air1.In1[i]);
         }
         Cable.Connect(inc.OutC, carryAir.In1);
-        List<LogicGate> gates = new List<LogicGate>() { number1, inc, air1, carryAir, testAir };
-        Cable.Connect(inc.Out1[3], testAir.In1);
+        List<LogicGate> gates = new List<LogicGate>() { number1, inc, air1, carryAir };
         
         number1.SetBits(0);
-        Simulate(gates, 500);
         Simulate(gates, ticks);
         Assert.That(air1.lastUnsigned, Is.EqualTo(1));
         Assert.That(air1.lastInt, Is.EqualTo(1));
@@ -125,8 +122,49 @@ public class ALUGatesTests
         Assert.That(air1.lastInt, Is.EqualTo(-24999));
         Assert.That(carryAir.In1.Voltage, Is.EqualTo(false));
     }
-    
-    
+
+
+    [Test]
+    public void And32Test()
+    {
+        SignalProvider32 number1 = new(0);
+        SignalProvider32 number2 = new(0);
+        And32 and = new();
+        Air32 air1 = new();
+        int ticks = number1.NeededTicks + and.NeededTicks + air1.NeededTicks;
+        Bus32.Connect(number1.Out1, and.In1);
+        Bus32.Connect(number2.Out1, and.In2);
+        for (int i = 0; i < 32; i++)
+        {
+            Cable.Connect(and.Out1[i], air1.In1[i]);
+        }
+
+        List<LogicGate> gates = new List<LogicGate>() { number1, number2, and, air1 };
+
+        number1.SetBits(7);
+        number2.SetBits(3);
+        Simulate(gates, ticks);
+        Assert.That(air1.lastUnsigned, Is.EqualTo(3));
+
+        number1.SetBits(200083);
+        number2.SetBits(163592);
+        Simulate(gates, ticks);
+        Assert.That(air1.lastUnsigned, Is.EqualTo(134400));
+        
+        number1.SetBits(SignalProvider32.HIGHEST_UNSIGNED, false);
+        number2.SetBits(SignalProvider32.HIGHEST_UNSIGNED, false);
+        Simulate(gates, ticks);
+        Assert.That(air1.lastUnsigned, Is.EqualTo(SignalProvider32.HIGHEST_UNSIGNED));
+        
+        number1.SetBits(SignalProvider32.HIGHEST_UNSIGNED, false);
+        number2.SetBits(0);
+        Simulate(gates, ticks);
+        Assert.That(air1.lastUnsigned, Is.EqualTo(0));
+    }
+
+
+
+
     private void Simulate(List<LogicGate> gates, int ticks=100)
     {
         for (int i = 0; i < ticks; i++)
