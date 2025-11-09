@@ -3,7 +3,7 @@
 using Connecters;
 using LogicGates;
 
-public class Inc32 : LogicGate
+public class Inc32 : LogicGate // Nath Inc. = NathIncorporated
 {
     public static readonly string NAME = "INC32";
     
@@ -12,6 +12,7 @@ public class Inc32 : LogicGate
     public Source NoVoltage = new Source(false);
     public Not Not1 = new();
     public BusConnector Out1 = new(NAME);
+    public ConnectorPlug OutC = new(NAME);
     
     public Inc32()
     {
@@ -19,6 +20,8 @@ public class Inc32 : LogicGate
         Cable.Connect(NoVoltage.Out1, Not1.In1);
         Cable.Connect(Not1.Out1, Add.In2[0]);
         Bus32.Connect(Add.Out1, Out1);
+        Cable.Connect(Add.OutC, OutC);
+        InitStats();
     }
     
     

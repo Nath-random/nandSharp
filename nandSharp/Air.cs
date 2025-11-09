@@ -22,6 +22,7 @@ public class Air : LogicGate
     }
     public override void Compute()
     {
+        // System.Diagnostics.Debug.WriteLine($"Air {Name} reports: in1: " + In1.Voltage);
         Console.WriteLine($"Air {Name} reports: in1: " + In1.Voltage);
     }
 

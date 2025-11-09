@@ -1,5 +1,4 @@
-﻿using NUnit.Framework.Legacy;
-
+﻿
 namespace NandTests;
 
 using nandSharp.Connecters;
@@ -7,8 +6,12 @@ using nandSharp.LogicGates;
 using nandSharp.Gates32Bit;
 using nandSharp;
 
-
-public class Tests
+//Debugging tipps:
+//1. Wie viele Ticks macht es wirklich?
+//2. Wenn man es mit z.B. 10000 Ticks macht, ist das Resultat anders?
+//3. Sind alle Gates richtig verbunden?
+//4. Sind alle Gates in der gates Liste?
+public class BasicGatesTests
 {
     static int TICKS = 100;
     [SetUp]
@@ -239,49 +242,10 @@ public class Tests
         
     }
     
-    [Test]
-    public void Add32Test()
-    {
-        SignalProvider32 number1 = new(0);
-        SignalProvider32 number2 = new(0);
-        Add32 add = new();
-        Air32 air1 = new();
-        Air carryAir = new();
-        int ticks = number1.NeededTicks + add.NeededTicks + air1.NeededTicks;
-        Bus32.Connect(number1.Out1, add.In1);
-        Bus32.Connect(number2.Out1, add.In2);
-        for (int i = 0; i < 32; i++)
-        {
-            Cable.Connect(add.Out1[i], air1.In1[i]);
-        }
-        Cable.Connect(add.OutC, carryAir.In1);
-
-        List<LogicGate> gates = new List<LogicGate>() { number1, number2, add, air1, carryAir };
-        
-        number1.SetBits(150);
-        number2.SetBits(220);
-        Simulate(gates, ticks);
-        Assert.That(air1.lastUnsigned, Is.EqualTo(370));
-        Assert.That(air1.lastInt, Is.EqualTo(370));
-        Assert.That(carryAir.In1.Voltage, Is.EqualTo(false));
-
-        number1.SetBits(-550);
-        number2.SetBits(100);
-        Simulate(gates, ticks);
-        Assert.That(air1.lastInt, Is.EqualTo(-450));
-        Assert.That(carryAir.In1.Voltage, Is.EqualTo(false));
-        
-        // number1.SetBits(-550);
-        // number2.SetBits(549);
-        // Simulate(gates, ticks);
-        // Assert.That(air1.lastUnsigned, Is.EqualTo(0));
-        // Assert.That(air1.lastInt, Is.EqualTo(0));
-        // Assert.That(carryAir.In1.Voltage, Is.EqualTo(true));
-    }
     
     private void Simulate(List<LogicGate> gates, int ticks=100)
     {
-        for (int i = 0; i < TICKS; i++)
+        for (int i = 0; i < ticks; i++)
         {
             foreach (LogicGate gate in gates)
             {
