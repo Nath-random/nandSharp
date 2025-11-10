@@ -34,7 +34,6 @@ public class ALUGatesTests
         number1.SetBits(150);
         number2.SetBits(220);
         Simulate(gates, ticks);
-        add.Compute();
         Assert.That(air1.lastUnsigned, Is.EqualTo(370));
         Assert.That(air1.lastInt, Is.EqualTo(370));
         Assert.That(carryAir.In1.Voltage, Is.EqualTo(false));
@@ -356,6 +355,86 @@ public class ALUGatesTests
         number1.SetBits(0, false);
         Simulate(gates, ticks);
         Assert.That(air1.lastUnsigned, Is.EqualTo(SignalProvider32.HIGHEST_UNSIGNED));
+    }
+    
+    
+    [Test]
+    public void Sub32Test()
+    {
+        SignalProvider32 number1 = new(0);
+        SignalProvider32 number2 = new(0);
+        Source carryIn = new Source(false);
+        Sub32 sub = new();
+        Air32 air1 = new();
+        Air carryAir = new();
+        int ticks = Math.Max(number1.NeededTicks, carryIn.NeededTicks) + sub.NeededTicks + air1.NeededTicks;
+        Bus32.Connect(number1.Out1, sub.In1);
+        Bus32.Connect(number2.Out1, sub.In2);
+        Cable.Connect(carryIn.Out1, sub.InC);
+        for (int i = 0; i < 32; i++)
+        {
+            Cable.Connect(sub.Out1[i], air1.In1[i]);
+        }
+        Cable.Connect(sub.OutC, carryAir.In1);
+        List<LogicGate> gates = new List<LogicGate>() { number1, number2, carryIn, sub, air1, carryAir };
+
+        
+        number1.SetBits(150);
+        number2.SetBits(220);
+        carryIn.Voltage = false;
+        Simulate(gates, ticks);
+        sub.Compute();
+        Assert.That(air1.lastInt, Is.EqualTo(-70));
+        Assert.That(carryAir.In1.Voltage, Is.EqualTo(true));
+
+        number1.SetBits(77000);
+        number2.SetBits(150);
+        carryIn.Voltage = false;
+        Simulate(gates, ticks);
+        sub.Compute();
+        Assert.That(air1.lastInt, Is.EqualTo(76850));
+        Assert.That(carryAir.In1.Voltage, Is.EqualTo(false));
+        
+        number1.SetBits(0);
+        number2.SetBits(0);
+        carryIn.Voltage = false;
+        Simulate(gates, ticks);
+        sub.Compute();
+        Assert.That(air1.lastInt, Is.EqualTo(0));
+        Assert.That(carryAir.In1.Voltage, Is.EqualTo(false));
+        
+        number1.SetBits(500);
+        number2.SetBits(0);
+        carryIn.Voltage = false;
+        Simulate(gates, ticks);
+        sub.Compute();
+        Assert.That(air1.lastInt, Is.EqualTo(500));
+        Assert.That(carryAir.In1.Voltage, Is.EqualTo(false));
+        
+        number1.SetBits(0);
+        number2.SetBits(600);
+        carryIn.Voltage = false;
+        Simulate(gates, ticks);
+        sub.Compute();
+        Assert.That(air1.lastInt, Is.EqualTo(-600));
+        Assert.That(carryAir.In1.Voltage, Is.EqualTo(true));
+        
+        number1.SetBits(500);
+        number2.SetBits(100);
+        carryIn.Voltage = true;
+        Simulate(gates, ticks);
+        sub.Compute();
+        Assert.That(air1.lastInt, Is.EqualTo(399));
+        Assert.That(carryAir.In1.Voltage, Is.EqualTo(false));
+        
+        number1.SetBits(20);
+        number2.SetBits(30);
+        carryIn.Voltage = true;
+        Simulate(gates, ticks);
+        sub.Compute();
+        Assert.That(air1.lastInt, Is.EqualTo(-11));
+        Assert.That(carryAir.In1.Voltage, Is.EqualTo(true));
+      
     }
 
     private void Simulate(List<LogicGate> gates, int ticks=100)

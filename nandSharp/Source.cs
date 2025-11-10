@@ -8,12 +8,13 @@ public class Source : LogicGate
     public Source(bool voltage)
     {
         Voltage = voltage;
+        InitStats();
     }
-    
     
     public override void InitStats()
     {
         NandCount = 0;
+        NeededTicks = 1;
     }
     
     public override void Compute()

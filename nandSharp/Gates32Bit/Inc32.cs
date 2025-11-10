@@ -9,16 +9,14 @@ public class Inc32 : LogicGate // Nath Inc. = NathIncorporated
     
     public BusConnector In1 = new(NAME);
     public Add32 Add = new Add32();
-    public Source NoVoltage = new Source(false);
-    public Not Not1 = new();
+    public Source HighVoltage = new Source(true);
     public BusConnector Out1 = new(NAME);
     public ConnectorPlug OutC = new(NAME);
     
     public Inc32()
     {
         Bus32.Connect(In1, Add.In1);
-        Cable.Connect(NoVoltage.Out1, Not1.In1);
-        Cable.Connect(Not1.Out1, Add.In2[0]);
+        Cable.Connect(HighVoltage.Out1, Add.In2[0]);
         Bus32.Connect(Add.Out1, Out1);
         Cable.Connect(Add.OutC, OutC);
         InitStats();
@@ -28,21 +26,19 @@ public class Inc32 : LogicGate // Nath Inc. = NathIncorporated
     
     public override void InitStats()
     {
-        NandCount = Add.NandCount + NoVoltage.NandCount + Not1.NandCount;
-        NeededTicks = NoVoltage.NeededTicks + Not1.NeededTicks + Add.NeededTicks;
+        NandCount = Add.NandCount + HighVoltage.NandCount;
+        NeededTicks = HighVoltage.NeededTicks + Add.NeededTicks;
     }
     
     public override void Compute()
     {
-        NoVoltage.Compute();
-        Not1.Compute();
+        HighVoltage.Compute();
         Add.Compute();
     }
 
     public override void Tick()
     {
-        NoVoltage.Tick();
-        Not1.Tick();
+        HighVoltage.Tick();
         Add.Tick();
     }
 }
