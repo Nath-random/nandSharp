@@ -329,7 +329,34 @@ public class ALUGatesTests
         Assert.That(air1.lastUnsigned, Is.EqualTo(0));
     }
 
+    [Test]
+    public void Not32Test()
+    {
+        SignalProvider32 number1 = new(0);
+        Not32 not = new();
+        Air32 air1 = new();
+        int ticks = number1.NeededTicks + not.NeededTicks + air1.NeededTicks;
+        Bus32.Connect(number1.Out1, not.In1);
+        for (int i = 0; i < 32; i++)
+        {
+            Cable.Connect(not.Out1[i], air1.In1[i]);
+        }
 
+        List<LogicGate> gates = new List<LogicGate>() { number1, not, air1 };
+
+        number1.SetBits(7);
+        Simulate(gates, ticks);
+        Assert.That(air1.lastUnsigned, Is.EqualTo(SignalProvider32.HIGHEST_UNSIGNED - 7));
+
+
+        number1.SetBits(SignalProvider32.HIGHEST_UNSIGNED, false);
+        Simulate(gates, ticks);
+        Assert.That(air1.lastUnsigned, Is.EqualTo(0));
+        
+        number1.SetBits(0, false);
+        Simulate(gates, ticks);
+        Assert.That(air1.lastUnsigned, Is.EqualTo(SignalProvider32.HIGHEST_UNSIGNED));
+    }
 
     private void Simulate(List<LogicGate> gates, int ticks=100)
     {
