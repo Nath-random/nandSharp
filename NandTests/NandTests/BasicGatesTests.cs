@@ -243,6 +243,101 @@ public class BasicGatesTests
     }
     
     
+    [Test]
+    public void MuxTest()
+    {
+        Air air = new();
+        Mux mux = new();
+        List<LogicGate> gates = new() { air, mux };
+        Cable.Connect(mux.Out1, air.In1);
+        
+        mux.InS.Propagate(false);
+        mux.In0.Propagate(false);
+        mux.In1.Propagate(false);
+        Simulate(gates);
+        Assert.That(air.In1.Voltage, Is.EqualTo(false));
+  
+        mux.InS.Propagate(false);
+        mux.In0.Propagate(false);
+        mux.In1.Propagate(true);
+        Simulate(gates);
+        Assert.That(air.In1.Voltage, Is.EqualTo(false));
+        
+        mux.InS.Propagate(false);
+        mux.In0.Propagate(true);
+        mux.In1.Propagate(false);
+        Simulate(gates);
+        Assert.That(air.In1.Voltage, Is.EqualTo(true));
+        
+        mux.InS.Propagate(false);
+        mux.In0.Propagate(true);
+        mux.In1.Propagate(true);
+        Simulate(gates);
+        Assert.That(air.In1.Voltage, Is.EqualTo(true));
+        
+        mux.InS.Propagate(true);
+        mux.In0.Propagate(false);
+        mux.In1.Propagate(false);
+        Simulate(gates);
+        Assert.That(air.In1.Voltage, Is.EqualTo(false));
+        
+        mux.InS.Propagate(true);
+        mux.In0.Propagate(false);
+        mux.In1.Propagate(true);
+        Simulate(gates);
+        Assert.That(air.In1.Voltage, Is.EqualTo(true));
+        
+        mux.InS.Propagate(true);
+        mux.In0.Propagate(true);
+        mux.In1.Propagate(false);
+        Simulate(gates);
+        Assert.That(air.In1.Voltage, Is.EqualTo(false));
+        
+        mux.InS.Propagate(true);
+        mux.In0.Propagate(true);
+        mux.In1.Propagate(true);
+        Simulate(gates);
+        Assert.That(air.In1.Voltage, Is.EqualTo(true));
+    }
+    
+    [Test]
+    public void SwitchTest()
+    {
+        Air air0 = new();
+        Air air1 = new();
+        Switch swi = new();
+        List<LogicGate> gates = new() { air0, air1, swi };
+        Cable.Connect(swi.Out0, air0.In1);
+        Cable.Connect(swi.Out1, air1.In1);
+        
+        swi.InS.Propagate(false);
+        swi.In1.Propagate(false);
+        Simulate(gates);
+        Assert.That(air0.In1.Voltage, Is.EqualTo(false));
+        Assert.That(air1.In1.Voltage, Is.EqualTo(false));
+
+        swi.InS.Propagate(false);
+        swi.In1.Propagate(true);
+        Simulate(gates);
+        Assert.That(air0.In1.Voltage, Is.EqualTo(true));
+        Assert.That(air1.In1.Voltage, Is.EqualTo(false));
+
+        swi.InS.Propagate(true);
+        swi.In1.Propagate(false);
+        Simulate(gates);
+        Assert.That(air0.In1.Voltage, Is.EqualTo(false));
+        Assert.That(air1.In1.Voltage, Is.EqualTo(false));
+
+        swi.InS.Propagate(true);
+        swi.In1.Propagate(true);
+        Simulate(gates);
+        Assert.That(air0.In1.Voltage, Is.EqualTo(false));
+        Assert.That(air1.In1.Voltage, Is.EqualTo(true));
+
+ 
+    }    
+    
+    
     private void Simulate(List<LogicGate> gates, int ticks=100)
     {
         for (int i = 0; i < ticks; i++)
