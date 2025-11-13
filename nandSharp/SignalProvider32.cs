@@ -38,14 +38,13 @@ public class SignalProvider32 : LogicGate
             bool negative = value < 0;
             if (negative)
             {
-                value += HIGHEST_SIGNED + 1;
+                value += 2 * HIGHEST_SIGNED + 2;
             }
-            for (int i = 0; i < 31; i++)
+            for (int i = 0; i < 32; i++)
             {
                 Bits[i] = (value % 2 == 1);
                 value /= 2;
             }
-            Bits[31] = negative;
         }
         else // Interpret as unsigned number
         {
