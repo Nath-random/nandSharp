@@ -1,7 +1,7 @@
 ﻿namespace nandSharp.Gates32Bit;
 
 using Connecters;
-using LogicGates;
+using IO;
 
 public class Inc32 : LogicGate // Nath Inc. = NathIncorporated
 {

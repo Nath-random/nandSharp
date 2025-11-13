@@ -1,5 +1,5 @@
-﻿namespace nandSharp.Connecters;
-
+﻿namespace nandSharp.IO;
+using Connecters;
 public class Source : LogicGate
 {
     public static readonly string NAME = "SOURCE";

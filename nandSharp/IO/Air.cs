@@ -1,6 +1,6 @@
 ﻿using nandSharp.LogicGates;
 
-namespace nandSharp;
+namespace nandSharp.IO;
 using Connecters;
 public class Air : LogicGate
 {

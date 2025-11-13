@@ -1,6 +1,6 @@
 ﻿using nandSharp.Connecters;
 
-namespace nandSharp;
+namespace nandSharp.IO;
 
 public class SignalProvider32 : LogicGate
 {

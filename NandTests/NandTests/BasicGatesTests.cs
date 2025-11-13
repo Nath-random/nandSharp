@@ -1,9 +1,8 @@
-﻿
-namespace NandTests;
+﻿namespace NandTests;
 
 using nandSharp.Connecters;
 using nandSharp.LogicGates;
-using nandSharp.Gates32Bit;
+using nandSharp.IO;
 using nandSharp;
 
 //Debugging tipps:

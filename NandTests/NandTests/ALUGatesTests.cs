@@ -3,6 +3,7 @@
 using nandSharp.Gates32Bit;
 using nandSharp.Connecters;
 using nandSharp;
+using nandSharp.IO;
 
 
 public class ALUGatesTests

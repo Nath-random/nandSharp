@@ -1,4 +1,4 @@
-﻿namespace nandSharp;
+﻿namespace nandSharp.IO;
 using Connecters;
 public class Air32 : LogicGate
 {
