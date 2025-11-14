@@ -3,6 +3,15 @@ using nandSharp.LogicGates;
 
 namespace nandSharp.Memory;
 
+/*
+ Plan wie Clock-Cycle funktionieren wird:
+ 1. Die Clock gibt n Ticks lange 0 aus.
+ 2. Dann wechselt es auf 1 und gibt n Ticks lange 1 aus.
+ 3. wieder auf 0 usw.
+ n ist die Anzahl benötigter Ticks die garantiert, dass alle Bauteile fertig berechnet haben/stabil sind.
+ In Nandsharp ist mit "Tick" die Zeit gemeint in der sich der Strom von einem Nand zum nächsten bewegt.
+ Tick simuliert also die Zeit und in echt ist es anders.
+ */
 public class FlipFlop : LogicGate // Precise: Data Flip-Flop
 {
     public static readonly string NAME = "FLIPFLOP";

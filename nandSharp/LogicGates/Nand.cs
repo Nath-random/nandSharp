@@ -22,6 +22,7 @@ public class Nand : LogicGate
     public override void Compute()
     {
         bool result = !(In1.Voltage && In2.Voltage); // This line is the core of the nandSharp Computer
+        Out1.lastVoltage = result;
         Out1.DestCable.Propagate(result);
     }
 

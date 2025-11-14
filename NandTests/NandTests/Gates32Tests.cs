@@ -6,7 +6,7 @@ using nandSharp;
 using nandSharp.IO;
 
 
-public class ALUGatesTests
+public class Gates32Tests
 {
     [SetUp]
     public void Setup()

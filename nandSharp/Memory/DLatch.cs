@@ -2,7 +2,7 @@
 
 using Connecters;
 using LogicGates;
-public class DLatch : LogicGate
+public class DLatch : LogicGate // State is undefined until first Store (oscillating)
 {
     
     public static readonly string NAME = "DLATCH";
@@ -17,7 +17,7 @@ public class DLatch : LogicGate
     public DLatch()
     {
         Cable.Connect(InSt, Nand1.In1);
-        Cable.Connect(InSt, Nand1.In2);
+        Cable.Connect(InSt, Nand2.In1);
         Cable.Connect(InD, Nand2.In2);
         Cable.Connect(Nand2.Out1, Nand1.In2);
         Cable.Connect(Nand1.Out1, SR.InS);
