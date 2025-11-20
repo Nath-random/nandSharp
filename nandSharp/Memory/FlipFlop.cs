@@ -11,6 +11,13 @@ namespace nandSharp.Memory;
  n ist die Anzahl benötigter Ticks die garantiert, dass alle Bauteile fertig berechnet haben/stabil sind.
  In Nandsharp ist mit "Tick" die Zeit gemeint in der sich der Strom von einem Nand zum nächsten bewegt.
  Tick simuliert also die Zeit und in echt ist es anders.
+ 
+ Clock hat 2 Phasen: 0 und 1.
+ Bei 0 kann sich Store und Data beliebig ändern und output ändert sich nicht.
+ Bei 1 soll sich Store und Data nicht mehr ändern und FlipFlop speichert das Bit
+ Bei wechsel auf 0 gibt FlipFlop den neuen Output aus.
+ 
+ Bevor mit Store und Clock etwas gespeichert wird, ist der Zustand undefiniert (oszilliert)
  */
 public class FlipFlop : LogicGate // Precise: Data Flip-Flop
 {

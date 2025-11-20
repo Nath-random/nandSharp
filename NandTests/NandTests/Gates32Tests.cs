@@ -371,12 +371,12 @@ public class Gates32Tests
         int ticks = Math.Max(number1.NeededTicks, carryIn.NeededTicks) + sub.NeededTicks + air1.NeededTicks;
         Bus32.Connect(number1.Out1, sub.In1);
         Bus32.Connect(number2.Out1, sub.In2);
-        Cable.Connect(carryIn.Out1, sub.InC);
+        Cable.Connect(carryIn.Out1, sub.InB);
         for (int i = 0; i < 32; i++)
         {
             Cable.Connect(sub.Out1[i], air1.In1[i]);
         }
-        Cable.Connect(sub.OutC, carryAir.In1);
+        Cable.Connect(sub.OutB, carryAir.In1);
         List<LogicGate> gates = new List<LogicGate>() { number1, number2, carryIn, sub, air1, carryAir };
 
         

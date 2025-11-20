@@ -10,13 +10,13 @@ public class Sub32 : LogicGate
     
     public BusConnector In1 = new(NAME);
     public BusConnector In2 = new(NAME);
-    public ConnectorPlug InC = new(NAME); // C = Carry Bit
+    public ConnectorPlug InB = new(NAME); // B = Borrow Bit
     public Add32 Add = new();
     public Not32 Not1 = new();
     public Not NotC1 = new();
     public Not NotC2 = new();
     public BusConnector Out1 = new(NAME);
-    public ConnectorPlug OutC = new(NAME);
+    public ConnectorPlug OutB = new(NAME); // B = Borrow Bit
     public Sub32()
     {
         /* Erklärung Carry: wegen Zweierkomplement muss es vor oder nach dem Add inkrementiert werden.
@@ -28,11 +28,11 @@ public class Sub32 : LogicGate
         Bus32.Connect(In1, Add.In1);
         Bus32.Connect(In2, Not1.In1);
         Bus32.Connect(Not1.Out1, Add.In2);
-        Cable.Connect(InC, NotC1.In1);
+        Cable.Connect(InB, NotC1.In1);
         Cable.Connect(NotC1.Out1, Add.InC);
         Bus32.Connect(Add.Out1, Out1);
         Cable.Connect(Add.OutC, NotC2.In1);
-        Cable.Connect(NotC2.Out1, OutC);
+        Cable.Connect(NotC2.Out1, OutB);
         InitStats();
     }
 
