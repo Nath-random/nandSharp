@@ -4,7 +4,7 @@ namespace nandSharp.LogicGates;
 
 public class And8In : LogicGate
 {
-    public static readonly string NAME = "MEMORYBYTE";
+    public static readonly string NAME = "AND8IN";
 
     public List<ConnectorPlug> Ins = new(); //Has 8 Ins
     public List<And> Ands = new(); //Needs 7 Ands
