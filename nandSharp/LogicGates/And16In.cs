@@ -4,7 +4,7 @@ namespace nandSharp.LogicGates;
 
 public class And16In : LogicGate
 {
-    public static readonly string NAME = "AND16In";
+    public static readonly string NAME = "AND16IN";
 
     public List<ConnectorPlug> Ins = new(); //Has 16 Ins
     public And8In And1 = new();
@@ -14,6 +14,10 @@ public class And16In : LogicGate
     
     public And16In()
     {
+        for (int i = 0; i < 16; i++)
+        {
+            Ins.Add(new ConnectorPlug(NAME));
+        }
         Bus32.Connect(Ins, And1.Ins, 0, 7, 0, 7);
         Bus32.Connect(Ins, And2.Ins, 8, 15, 0, 7);
         Cable.Connect(And1.Out1, And3.In1);

@@ -14,7 +14,7 @@ public static class Bus32
     // First and Last inclusive
     public static void Connect(BusConnector from, BusConnector to, int first, int last)
     {
-        if (last > first)
+        if (last < first)
         {
             throw new ArgumentException("last is greater than first!");
         }
@@ -28,9 +28,9 @@ public static class Bus32
     
     public static void Connect(List<ConnectorPlug> from, List<ConnectorPlug> to, int fromFirst, int fromLast, int toFirst, int toLast)
     {
-        if (fromLast > fromFirst || toLast > toFirst)
+        if (fromLast < fromFirst || toLast < toFirst)
         {
-            throw new ArgumentException("last is greater than first!");
+            throw new ArgumentException("last is smaller than first!");
         }
 
         if (fromLast - fromFirst != toLast - toFirst)
