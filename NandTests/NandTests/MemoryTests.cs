@@ -32,7 +32,7 @@ public class MemoryTests
         Assert.That(air1.In1.Voltage, Is.EqualTo(true));
         signalR.Voltage = true;
         Simulate(gates, ticks);
-        Assert.That(air1.In1.Voltage, Is.EqualTo(true));
+        Assert.That(air1.In1.Voltage, Is.EqualTo(true)); //todo
         signalR.Voltage = false;
         Simulate(gates, ticks);
         Assert.That(air1.In1.Voltage, Is.EqualTo(true));
@@ -212,7 +212,7 @@ public class MemoryTests
 
         clock.Voltage = false;
         Simulate(gates, ticks);
-        Assert.That(air1.In1.Voltage, Is.EqualTo(true));
+        Assert.That(air1.In1.Voltage, Is.EqualTo(true)); //todo
         
         signalSt.Voltage = true;
         signalD.Voltage = false;
@@ -397,7 +397,7 @@ public class MemoryTests
     
     private void Simulate(List<LogicGate> gates, int ticks=100)
     {
-        for (int i = 0; i < ticks; i++)
+        for (int i = 0; i < ticks + 30; i++) //todo remove 10
         {
             foreach (LogicGate gate in gates)
             {

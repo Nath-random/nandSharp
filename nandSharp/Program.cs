@@ -10,7 +10,7 @@ class Program
     static void Main(string[] args)
     {
         RAM ram = new(100);
-        SignalProvider32 inputData = new(4047);
+        SignalProvider32 inputData = new(0); //4047
         SignalProvider32 inputAddress = new(3);
 
         Bus32.Connect(inputData.Out1, ram.InD);
