@@ -11,6 +11,8 @@ public class DLatch : LogicGate // State is undefined until first Store (oscilla
     public ConnectorPlug InD = new(NAME); // D = Data
     public Nand Nand1 = new();
     public Nand Nand2 = new();
+    public Not Not1 = new(); // Delay left Input of SRLatch to prevent oscilating todo löschen
+    public Not Not2 = new();
     public SRLatch SR = new();
     public ConnectorPlug Out1 = new(NAME);
 
@@ -21,6 +23,11 @@ public class DLatch : LogicGate // State is undefined until first Store (oscilla
         Cable.Connect(InD, Nand2.In2);
         Cable.Connect(Nand2.Out1, Nand1.In2);
         Cable.Connect(Nand1.Out1, SR.InS);
+        // Cable.Connect(Nand1.Out1, Not1.In1);
+        // Cable.Connect(Not1.Out1, Not2.In1);
+        // Cable.Connect(Not2.Out1, SR.InS);
+        // Cable.Connect(Nand1.Out1, Nand3.In1); todo löschen
+        // Cable.Connect(Nand3.Out1, SR.InS);
         Cable.Connect(Nand2.Out1, SR.InR);
         Cable.Connect(SR.Out1, Out1);
         InitStats();
