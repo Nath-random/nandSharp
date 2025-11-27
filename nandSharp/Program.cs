@@ -10,7 +10,7 @@ class Program
     static void Main(string[] args)
     {
         RAM ram = new(100);
-        SignalProvider32 inputData = new(0); //4047
+        SignalProvider32 inputData = new(4047);
         SignalProvider32 inputAddress = new(3);
 
         Bus32.Connect(inputData.Out1, ram.InD);
@@ -23,7 +23,7 @@ class Program
         }
         
         //set everything to 0
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 200; i++)
         {
             inputData.Compute();
             inputAddress.Compute();
@@ -34,7 +34,7 @@ class Program
         }
         ram.InSt.Propagate(true);
         ram.InCl.Propagate(true);
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 200; i++)
         {
             inputData.Compute();
             inputAddress.Compute();
@@ -44,7 +44,7 @@ class Program
             ram.Tick();
         }
         ram.InCl.Propagate(false);
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 200; i++)
         {
             inputData.Compute();
             inputAddress.Compute();
@@ -54,7 +54,7 @@ class Program
             ram.Tick();
         }
         ram.InCl.Propagate(true);
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 200; i++)
         {
             inputData.Compute();
             inputAddress.Compute();

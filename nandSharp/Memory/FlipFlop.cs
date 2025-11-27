@@ -26,68 +26,40 @@ public class FlipFlop : LogicGate // Precise: Data Flip-Flop
     public ConnectorPlug InSt = new(NAME); // St = Store
     public ConnectorPlug InD = new(NAME); // D = Data
     public ConnectorPlug InCl = new(NAME); // Cl = Clock
-    public And And1 = new();
-    public And And2 = new();
-    public And And3 = new();
-    public Not Not1 = new();
-    public DLatch DL1 = new();
-    public DLatch DL2 = new();
+    public Nand Nand1 = new();
+    public Mux Mux1 = new();
+    public DLatch DL = new();
     public ConnectorPlug Out1 = new(NAME);
 
     public FlipFlop()
     {
-        Cable.Connect(InSt, And1.In1);
-        Cable.Connect(InD, And2.In1);
-        Cable.Connect(InCl, And1.In2);
-        Cable.Connect(InCl, And2.In2);
-        Cable.Connect(InCl, Not1.In1);
-        Cable.Connect(And1.Out1, DL1.InSt);
-        Cable.Connect(And2.Out1, DL1.InD);
-        Cable.Connect(DL1.Out1, And3.In1);
-        Cable.Connect(Not1.Out1, DL2.InSt);
-        Cable.Connect(Not1.Out1, And3.In2);
-        Cable.Connect(And3.Out1, DL2.InD);
-        Cable.Connect(DL2.Out1, Out1);
-        
-        // Cable.Connect(InSt, Nand1.In1);
-        // Cable.Connect(InCl, Nand1.In2);
-        // Cable.Connect(InD, Mux1.In0);
-        // Cable.Connect(Nand1.Out1, Mux1.InS);
-        // Cable.Connect(Mux1.Out1, Mux1.In1);
-        // Cable.Connect(Nand1.Out1, DL.InSt);
-        // Cable.Connect(Mux1.Out1, DL.InD);
-        // Cable.Connect(DL.Out1, Out1);
+        Cable.Connect(InSt, Nand1.In1);
+        Cable.Connect(InCl, Nand1.In2);
+        Cable.Connect(InD, Mux1.In0);
+        Cable.Connect(Nand1.Out1, Mux1.InS);
+        Cable.Connect(Mux1.Out1, Mux1.In1);
+        Cable.Connect(Nand1.Out1, DL.InSt);
+        Cable.Connect(Mux1.Out1, DL.InD);
+        Cable.Connect(DL.Out1, Out1);
         InitStats();
     }
     public override void InitStats()
     {
-        // NandCount = Nand1.NandCount + Mux1.NandCount + DL.NandCount;
-        // NeededTicks = Nand1.NeededTicks + Mux1.NeededTicks + DL.NeededTicks;
+        NandCount = Nand1.NandCount + Mux1.NandCount + DL.NandCount;
+        NeededTicks = Nand1.NeededTicks + Mux1.NeededTicks + DL.NeededTicks;
     }
 
     public override void Compute()
     {
-        And1.Compute();
-        And2.Compute();
-        And3.Compute();
-        Not1.Compute();
-        DL1.Compute();
-        DL2.Compute();
-        // Nand1.Compute();
-        // Mux1.Compute();
-        // DL.Compute();
+        Nand1.Compute();
+        Mux1.Compute();
+        DL.Compute();
     }
 
     public override void Tick()
     {
-        And1.Tick();
-        And2.Tick();
-        And3.Tick();
-        Not1.Tick();
-        DL1.Tick();
-        DL2.Tick();
-        // Nand1.Tick();
-        // Mux1.Tick();
-        // DL.Tick();
+        Nand1.Tick();
+        Mux1.Tick();
+        DL.Tick();
     }
 }
