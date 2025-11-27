@@ -10,8 +10,8 @@ class Program
     static void Main(string[] args)
     {
         RAM ram = new(100);
-        SignalProvider32 inputData = new(4047);
-        SignalProvider32 inputAddress = new(3);
+        SignalProvider32 inputData = new(2047);
+        SignalProvider32 inputAddress = new(3 * 4);
 
         Bus32.Connect(inputData.Out1, ram.InD);
         Bus32.Connect(inputAddress.Out1, ram.InAd);
@@ -22,8 +22,8 @@ class Program
             Cable.Connect(ram.Out1[i], output.In1[i]);
         }
         
-        //set everything to 0
-        for (int i = 0; i < 200; i++)
+        ram.InSt.Propagate(true);
+        for (int i = 0; i < 30; i++)
         {
             inputData.Compute();
             inputAddress.Compute();
@@ -32,9 +32,8 @@ class Program
             inputAddress.Tick();
             ram.Tick();
         }
-        ram.InSt.Propagate(true);
         ram.InCl.Propagate(true);
-        for (int i = 0; i < 200; i++)
+        for (int i = 0; i < 30; i++)
         {
             inputData.Compute();
             inputAddress.Compute();
@@ -44,7 +43,7 @@ class Program
             ram.Tick();
         }
         ram.InCl.Propagate(false);
-        for (int i = 0; i < 200; i++)
+        for (int i = 0; i < 30; i++)
         {
             inputData.Compute();
             inputAddress.Compute();
@@ -53,16 +52,16 @@ class Program
             inputAddress.Tick();
             ram.Tick();
         }
-        ram.InCl.Propagate(true);
-        for (int i = 0; i < 200; i++)
-        {
-            inputData.Compute();
-            inputAddress.Compute();
-            ram.Compute();
-            inputData.Tick();
-            inputAddress.Tick();
-            ram.Tick();
-        }
+        // ram.InCl.Propagate(true);
+        // for (int i = 0; i < 100; i++)
+        // {
+        //     inputData.Compute();
+        //     inputAddress.Compute();
+        //     ram.Compute();
+        //     inputData.Tick();
+        //     inputAddress.Tick();
+        //     ram.Tick();
+        // }
         inputData.Compute();
         inputAddress.Compute();
         ram.Compute();

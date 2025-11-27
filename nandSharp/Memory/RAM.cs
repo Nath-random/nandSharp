@@ -16,12 +16,19 @@ public class RAM : LogicGate
     public List<And> AndsForSt = new();
     public List<And> AndsForBits = new();
     public List<Not> Nots = new();
-    public List<Mux32> Muxes = new();
     public List<ClampPlug> Clamps = new();
     public BusConnector Out1 = new(NAME);
 
     public RAM(long byteSize)
     {
+        BuildRAM(byteSize);
+        InitStats();
+    }
+    
+    
+    
+    private void BuildRAM(long byteSize)
+    { 
         /* In NandSharp theoretically RAM could be created in sizes that are powers of 2.
          The smallest size would be 1 Layer with 2 Registers = 8 Bytes
          But here there are only 4 Sizes:
@@ -29,7 +36,7 @@ public class RAM : LogicGate
          10 layers = 2^10 Registers = 1024 Registers = 4096 byte = 4kB
          12 layers = 2^12 Registers = 4096 Registers = 16384 byte = 16kB
          14 layers = 2^14 Registers = 16384 Registers = 65536 byte = 64kB
-         
+
          The layers correspond to how many bits of the address bus are used.
          Example: byteSize = 500, then 1024 bytes will be wired in 8 layers using bits 0-7 of the address bus.
 
@@ -73,11 +80,7 @@ public class RAM : LogicGate
             Cable.Connect(AndsForSt[i].Out1, Blocks[i].InSt);
             Bus32.Connect(InD, Blocks[i].InD); //All Registers are connected to the Data Bus
         }
-        for (int i = 0; i < muxCount; i++)
-        {
-            Muxes.Add(new Mux32());
-        }
-
+        
         
         int notCounter = 0; //Keeps track how many nots there are
         for (int i = 0; i < registerCount; i++) //for every register one iteration
@@ -102,7 +105,7 @@ public class RAM : LogicGate
                 }
                 addressValue /= 2;
             }
-            //todo test this
+
             //all other And16 inputs have to be 1. Solution: a Not with no input is always true
             for (int r = layers; r < 16; r++) //iterations 32 - layers
             {
@@ -132,17 +135,6 @@ public class RAM : LogicGate
         }
         
         
-        
-        
-        
-
-        
-        // for (int i = 0; i < registerCount; i++)
-        // {
-        //     Bus32.Connect(Blocks[i].Out1, Out1); //todo LÖSCHEN!!
-        // }
-
-
         //Connect the unused Address Bits to Isolation. The idea is, that every Output needs to be connected to something for easier debugging
         Cable.Connect(InAd[0], new PinIsolation()); //the first bit are unused, because only multiples of 4 bytes can be addressed
         Cable.Connect(InAd[1], new PinIsolation());
@@ -152,23 +144,18 @@ public class RAM : LogicGate
         }
   
 
-
-
-
-
-    }
-    
-    
-    
-    private void BuildRAM(long bytesize)
-    {
-            
     }
     
     
     public override void InitStats()
     {
-        throw new NotImplementedException();
+        NandCount = Blocks.Count * Blocks[0].NandCount
+                    + And16s.Count * And16s[0].NandCount
+                    + AndsForSt.Count * AndsForSt[0].NandCount
+                    + AndsForBits.Count * AndsForBits[0].NandCount
+                    + Nots.Count * Nots[0].NandCount;
+        NeededTicks = Nots[0].NeededTicks + And16s[0].NeededTicks + AndsForSt[0].NeededTicks
+                      + Blocks[0].NeededTicks + AndsForBits[0].NandCount;
     }
 
     public override void Compute()
@@ -185,11 +172,16 @@ public class RAM : LogicGate
         foreach (And and in AndsForSt)
         {
             and.Compute();
-        }
+        }        
 
         foreach (Register block in Blocks)
         {
             block.Compute();
+        }
+        
+        foreach (And and in AndsForBits)
+        {
+            and.Compute();
         }
 
         foreach (Not not in Nots)
@@ -213,6 +205,11 @@ public class RAM : LogicGate
         foreach (Register block in Blocks)
         {
             block.Tick();
+        }
+        
+        foreach (And and in AndsForBits)
+        {
+            and.Tick();
         }
 
         foreach (Not not in Nots)
