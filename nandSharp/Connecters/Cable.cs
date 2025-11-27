@@ -13,6 +13,12 @@ public class Cable
         from.DestCable ??= new Cable();
         from.DestCable.AddDest(to);
     }
+    
+    public static void ConnectFromClamp(ClampPlug from, Plug to)
+    {
+        from.DestCable ??= new Cable();
+        from.DestCable.AddDest(to);
+    }
     public void AddDest(Plug dest)
     {
         Dests.Add(dest);
