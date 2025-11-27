@@ -36,7 +36,6 @@ public class Air32 : LogicGate
         long value = 1;
         for (int i = 0; i < 32; i++)
         {
-            Console.WriteLine("HOI");
             text += In1[i].Voltage ? "1" : "0";
             sum += In1[i].Voltage ? value : 0;
             value *= 2;

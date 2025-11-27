@@ -20,7 +20,13 @@ public class Register : LogicGate
     public Register()
     {
         Cable.Connect(InSt, Byte0.InSt);
+        Cable.Connect(InSt, Byte1.InSt);
+        Cable.Connect(InSt, Byte2.InSt);
+        Cable.Connect(InSt, Byte3.InSt);
         Cable.Connect(InCl, Byte0.InCl);
+        Cable.Connect(InCl, Byte1.InCl);
+        Cable.Connect(InCl, Byte2.InCl);
+        Cable.Connect(InCl, Byte3.InCl);
         Bus32.Connect(InD.Pins, Byte0.InD, 0, 7, 0, 7);
         Bus32.Connect(InD.Pins, Byte1.InD, 8, 15, 0, 7);
         Bus32.Connect(InD.Pins, Byte2.InD, 16, 23, 0, 7);

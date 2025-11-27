@@ -398,102 +398,118 @@ public class MemoryTests
     [Test]
     public void RAMTest()
     {
+        SignalProvider32 inputData = new(0);
+        SignalProvider32 inputAddress = new(0);
+        Source inputSt = new(false);
+        Source inputCl = new(false);
         RAM ram = new(1024);
         Assert.That(ram.Blocks.Count * 4, Is.GreaterThanOrEqualTo(1024));
-        // SignalProvider32 inputData = new(2047);
-        SignalProvider32 inputData = new(0);
-        // SignalProvider32 inputAddress = new(3 * 4);
-        SignalProvider32 inputAddress = new(0);
-        
-
-        Bus32.Connect(inputData.Out1, ram.InD);
-        Bus32.Connect(inputAddress.Out1, ram.InAd);
         Air32 output = new();
         
+        Bus32.Connect(inputData.Out1, ram.InD);
+        Bus32.Connect(inputAddress.Out1, ram.InAd);
+        Cable.Connect(inputSt.Out1, ram.InSt);
+        Cable.Connect(inputCl.Out1, ram.InCl);
         for (int i = 0; i < 32; i++)
         {
             Cable.Connect(ram.Out1[i], output.In1[i]);
         }
-        
-        ram.InSt.Propagate(true);
-        for (int i = 0; i < 100; i++)
-        {
-            inputData.Compute();
-            inputAddress.Compute();
-            ram.Compute();
-            inputData.Tick();
-            inputAddress.Tick();
-            ram.Tick();
-        }
-        ram.InCl.Propagate(true);
-        for (int i = 0; i < 100; i++)
-        {
-            inputData.Compute();
-            inputAddress.Compute();
-            ram.Compute();
-            inputData.Tick();
-            inputAddress.Tick();
-            ram.Tick();
-        }
-        ram.InCl.Propagate(false);
-        for (int i = 0; i < 100; i++)
-        {
-            inputData.Compute();
-            inputAddress.Compute();
-            ram.Compute();
-            inputData.Tick();
-            inputAddress.Tick();
-            ram.Tick();
-        }
-        // ram.InCl.Propagate(true);
-        // for (int i = 0; i < 100; i++)
-        // {
-        //     inputData.Compute();
-        //     inputAddress.Compute();
-        //     ram.Compute();
-        //     inputData.Tick();
-        //     inputAddress.Tick();
-        //     ram.Tick();
-        // }
-        inputData.Compute();
-        inputAddress.Compute();
-        ram.Compute();
-        inputData.Tick();
-        inputAddress.Tick();
-        ram.Tick();
-        
-        
-        // SignalProvider32 input = new(4047);
-        // And16In ands = new();
-        // for (int i = 0; i < 16; i++)
-        // {
-        //     Cable.Connect(new Source(false).Out1, ands.Ins[i]);
-        //     Cable.Connect(ands.Out1, new PinIsolation());
-        // }
-        // ands.Compute();
-        // ands.Tick();
-        
-        
-        
-        // Bus32.Connect(input.Out1, ram.InAd);
-        // Air32 output = new();
 
-        // int byteSize = 17;
-        // int layers = 1; //Minimum Size = 2 Registers = 8 Bytes
-        //
-        // if (byteSize > 8) 
-        // {
-        //     layers = (int)Math.Ceiling(Math.Log2(byteSize)) - 2; //Size is rounded up to the next power of 2.
-        // }
-        //
-        // int registerCount = 2 ^ (layers - 2);
-        //
-        // // registerCount = (int)Math.Pow(2, layers);
-        // registerCount = 1 << layers;
-        // Console.WriteLine(2^3);
-        // Mux mux = new();
-        // Console.WriteLine(mux.NandCount);
-        // Console.WriteLine(mux.NeededTicks);
+        List<LogicGate> gates = new List<LogicGate>() { inputData, inputAddress, inputSt, inputCl, ram, output };
+
+        int ticks = inputSt.NeededTicks + ram.NeededTicks + output.NeededTicks;
+        //Registers that are not written to, are oscillating between 0 and 1, so it doesn't make sense to test it before writing
+        
+        //set 0x0 to 0
+        inputData.SetBits(0);
+        inputAddress.SetBits(0); //Register 0
+        inputSt.Voltage = true;
+        inputCl.Voltage = false;
+        Simulate(gates, ticks);
+        inputCl.Voltage = true;
+        Simulate(gates, ticks);
+        inputCl.Voltage = false;
+        Simulate(gates, ticks);
+        Assert.That(output.lastUnsigned, Is.EqualTo(0));
+        
+        inputData.SetBits(9);
+        inputAddress.SetBits(4); //Register 1
+        inputSt.Voltage = true;
+        inputCl.Voltage = false;
+        Simulate(gates, ticks);
+        inputCl.Voltage = true;
+        Simulate(gates, ticks);
+        inputCl.Voltage = false;
+        Simulate(gates, ticks);
+        Assert.That(output.lastUnsigned, Is.EqualTo(9));
+        
+        inputData.SetBits(5001);
+        inputAddress.SetBits(64); //Register 16
+        inputSt.Voltage = true;
+        inputCl.Voltage = false;
+        Simulate(gates, ticks);
+        inputCl.Voltage = true;
+        Simulate(gates, ticks);
+        inputCl.Voltage = false;
+        Simulate(gates, ticks);
+        Assert.That(output.lastUnsigned, Is.EqualTo(5001));
+        
+        inputData.SetBits(338001);
+        inputAddress.SetBits(100); //Register 25
+        inputSt.Voltage = true;
+        inputCl.Voltage = false;
+        Simulate(gates, ticks);
+        inputCl.Voltage = true;
+        Simulate(gates, ticks);
+        inputCl.Voltage = false;
+        Simulate(gates, ticks);
+        Assert.That(output.lastUnsigned, Is.EqualTo(338001));
+
+        
+        //Read saved data
+        inputData.SetBits(0);
+        inputAddress.SetBits(0);
+        inputSt.Voltage = false;
+        inputCl.Voltage = false;
+        Simulate(gates, ticks);
+        inputCl.Voltage = true;
+        Simulate(gates, ticks);
+        inputCl.Voltage = false;
+        Simulate(gates, ticks);
+        Assert.That(output.lastUnsigned, Is.EqualTo(0));
+        
+        inputData.SetBits(0);
+        inputAddress.SetBits(4);
+        inputSt.Voltage = false;
+        inputCl.Voltage = false;
+        Simulate(gates, ticks);
+        inputCl.Voltage = true;
+        Simulate(gates, ticks);
+        inputCl.Voltage = false;
+        Simulate(gates, ticks);
+        Assert.That(output.lastUnsigned, Is.EqualTo(9));
+        
+        inputData.SetBits(0);
+        inputAddress.SetBits(64);
+        inputSt.Voltage = false;
+        inputCl.Voltage = false;
+        Simulate(gates, ticks);
+        inputCl.Voltage = true;
+        Simulate(gates, ticks);
+        inputCl.Voltage = false;
+        Simulate(gates, ticks);
+        Assert.That(output.lastUnsigned, Is.EqualTo(5001));
+        
+        inputData.SetBits(0);
+        inputAddress.SetBits(100);
+        inputSt.Voltage = false;
+        inputCl.Voltage = false;
+        Simulate(gates, ticks);
+        inputCl.Voltage = true;
+        Simulate(gates, ticks);
+        inputCl.Voltage = false;
+        Simulate(gates, ticks);
+        Assert.That(output.lastUnsigned, Is.EqualTo(338001));
     }
     
     private void Simulate(List<LogicGate> gates, int ticks=100)
